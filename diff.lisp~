@@ -5,25 +5,25 @@
         ;XD lis
         if(eq (listp block) nil) (mainDiff (list block))
         (
-			if(eq (isNumberD block) 4) (list 0)
-			(
-				if(eq (isSingleD block) 1) (XD block)
-				(
-					if(eq (isPowerD block) 2) (PowD block)
-					(
-						if(eq (isMultD block) 3) (MultD block)
-						(
-							if(eq (isInverseD block) 5) (PowD block)
-							(
-								if(eq (isExpD block) 6) (ExpD block)
-								(
-									print "error"
-								)
-							)
-						)
-					)
-				)
-			)
+        if(eq (isNumberD block) 4) (list 0)
+        (
+            if(eq (isSingleD block) 1) (XD block)
+            (
+                if(eq (isPowerD block) 2) (PowD block)
+                (
+                    if(eq (isMultD block) 3) (MultD block)
+                    (
+                        if(eq (isInverseD block) 5) (PowD block)
+                        (
+                            if(eq (isExpD block) 6) (ExpD block)
+                            (
+                                print "error"
+                            )
+                        )
+                    )
+                )
+            )
+        )
         )
     ))
 
