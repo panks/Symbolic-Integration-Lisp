@@ -1,9 +1,12 @@
 (load 'diff.lisp)
-    
+
+(setf coun 0)
+
 (defun integrate( block )
     (
         if(eq (listp block) nil) (integrate (list block))
         (
+        
 			if(eq (isNumber block) 4) (NumberI block)
 			(
 				if(eq (isSingle block) 1) (SingleI block)
@@ -21,6 +24,7 @@
 					)
 				)
 			)
+		
         )
     ))
 
@@ -47,28 +51,7 @@
     ))
 
 ; trying to do UV rule and substitution
-#|
-(defun integrateRules ( seg num)
-    (
-		;(setf left 0)
-        ;assuming only 2 elements in the product..
-        if(eq num 100) nil
-        (
-            if(eq (isSimple seg) 1) 0
-            (
-				if(isNilPresent () )
-            )
-        )
-    )) 
 
-(defun pathFinder (seg def start)
-	(
-		if(null seg) (print 'No integral')
-		(
-			if(eq (car seg) 1) ( append ( list '* (integrate (tillN1 def)) (last def)) (list '* (* -1 start ) ( parhFinder (cdr seg) (diff  ) (* -1 start))))
-		)
-	))
-|#
 (defun xpresent( seg )
 	(
 		if(null seg) nil
@@ -107,10 +90,37 @@
 (defun starFun( str )
     (
         if(eq (car str) '+) 
-        (
-            cons '+ (iterate (cdr str))
+			(
+				cons '+ (iterate (cdr str))
+			)
+        ( 
+			if(and (eq (car str) '*) (listp (second str)) (listp (third str)) )
+				(
+					if(and (eq t (xpresent (third str)) ) (null (xpresent (second str)))) (list '* (second str) (integrate (third str) ))
+					(
+						if(and (eq t (xpresent (second str)) ) (null (xpresent (third str)))) (list '* (third str) (integrate (second str) ))
+						(
+							if(and (null (xpresent (third str)) ) (null (xpresent (second str)))) str
+							(
+								;UV rule!!
+								if(eq (isNilPresent (starFun (list '* (starFun (tillN1 (cdr lis))) (diff (last list)))) ) T)
+									(
+										if(eq (isNilPresent (starFun (list '* (starFun (last lis)) (diff (tillN1 (cdr lis)))))) T) nil
+										(
+											starFun (list '* (starFun (last lis)) (diff (tillN1 (cdr lis))))
+										)
+									)
+								(
+									starFun (list '* (starFun (tillN1 (cdr lis))) (diff (last list))))
+								)
+							)
+						)
+					)
+				)
+			(
+			integrate  str
+			)
         )
-        ( integrate  str)
     ))
 
 (defun iterate(block)
