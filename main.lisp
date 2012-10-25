@@ -15,9 +15,7 @@
 							if(eq (isInverse block) 5) (InverseI block)
 							(
 								if(eq (isExp block) 6) (ExpI block)
-								(
-									print "error"
-								)
+								nil
 							)
 						)
 					)
@@ -49,7 +47,7 @@
     ))
 
 ; trying to do UV rule and substitution
-#|
+
 (defun integrateRules ( seg num)
     (
 		;(setf left 0)
@@ -58,12 +56,11 @@
         (
             if(eq (isSimple seg) 1) 0
             (
-				if(null (last ( )) )
+				if(isNilPresent () )
             )
         )
     )) 
-
-
+#|
 (defun pathFinder (seg def start)
 	(
 		if(null seg) (print 'No integral')
@@ -71,8 +68,35 @@
 			if(eq (car seg) 1) ( append ( list '* (integrate (tillN1 def)) (last def)) (list '* (* -1 start ) ( parhFinder (cdr seg) (diff  ) (* -1 start))))
 		)
 	))
+|#
+(defun xpresent( seg )
+	(
+		if(null seg) nil
+		(
+			if(listp (car seg)) 
+				(
+					if(eq (xpresent (car seg)) nil) (xpresent (cdr seg))
+					T
+				)
+			(
+				if(eq (car seg) 'x) T
+				(
+					xpresent (cdr seg)
+				)
+			)
+		)
+	))
 	
-|#	
+	
+(defun isNilPresent (lis)
+	(
+		if(null lis) nil
+		(
+			if(null (caar lis)) T
+			(isNilPresent (cdr lis))
+		)
+	))
+
 (defun tillN1 (lis)
 	(
 		if(<= (length lis) 2) (car lis)
@@ -99,9 +123,7 @@
 (defun isNumber( unit )
     (
         if(numberp (car unit)) 4            
-        (
-            print "error"    
-        )
+        -1
     ))
     
 (defun NumberI( unit )
@@ -126,7 +148,7 @@
         if(eq (car unit) '^)
             ( if(eq (second unit) 'x)
                 (   if(numberp (third unit)) 2
-                    (print "error"))
+                    -1)
             
                ;later expansion
                20

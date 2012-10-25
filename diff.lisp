@@ -16,9 +16,7 @@
 							if(eq (isInverseD block) 5) (PowD block)
 							(
 								if(eq (isExpD block) 6) (ExpD block)
-								(
-									print "error"
-								)
+								nil
 							)
 						)
 					)
@@ -140,15 +138,11 @@
 (defun isSingleD( unit )
     (
         if(eq (car unit) 'x) 1            
-        (
-            print "error"    
-        )
+        nil
     ))
     
 (defun isNumberD( unit )
     (
         if(numberp (car unit)) 4            
-        (
-            print "error"    
-        )
+        nil
     ))
