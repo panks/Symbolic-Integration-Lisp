@@ -114,7 +114,7 @@
 ( defun isMultD( unit )  
     (
         if(eq (car unit) '*)
-            ( if(numberp (second unit)) 3
+            ( if(or (numberp (second unit)) (and (eq (length (second unit)) 1) (numberp (car (second unit))) )) 3
                 
             (
                ;later expansion
