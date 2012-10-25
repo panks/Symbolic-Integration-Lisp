@@ -30,7 +30,11 @@
 								(
 								  if(eq (isSec block) 12) (SecI block)
 								
-								  nil
+								    (
+								      if(eq (isCosec block) 13) (CosecI block)
+								
+									nil
+								    )
 								)
 							)
 						)
@@ -404,5 +408,32 @@
      (if (eq (length unit) 2)
 	(list 'ln '+ 'Sec (second unit) 'Tan (second unit) )	
 	(list '* (third unit) 'ln '+ 'Sec (fourth unit) 'Tan (fourth unit) )
+      )
+)
+
+
+(defun isCosec(unit)
+	(	
+	if(or (eq (car unit) 'cosec) (eq (car unit) 'Cosec))
+		( if( eq (second unit) 'x) 
+		13
+		(	
+		  if(and (and (eq (second unit) '*) (eq (isNumber (list (third unit))) 4)) (eq (fourth unit) 'x)) 13
+		  -1
+		)
+		)
+
+		(
+		;later expansion
+		)
+
+	)
+)
+
+
+(defun CosecI(unit)
+     (if (eq (length unit) 2)
+	(list '-ln '+ 'Cosec (second unit) 'Cot (second unit) )	
+	(list '* (third unit) '-ln '+ 'Cosec (fourth unit) 'Cot (fourth unit) )
       )
 )
