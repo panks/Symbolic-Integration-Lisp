@@ -1,7 +1,5 @@
 (load 'diff.lisp)
 
-(setf coun 0)
-
 (defun integrate( block )
     (
         if(eq (listp block) nil) (integrate (list block))
@@ -87,40 +85,44 @@
 	))
 	
 ;TODO e^x and ln x are not working
-(defun starFun( str )
+(defun starFun( str coun)
     (
-        if(eq (car str) '+) 
-			(
-				cons '+ (iterate (cdr str))
-			)
-        ( 
-			if(and (eq (car str) '*) (listp (second str)) (listp (third str)) )
+		if(= coun 100) nil
+		(
+			if(eq (car str) '+) 
 				(
-					if(and (eq t (xpresent (third str)) ) (null (xpresent (second str)))) (list '* (second str) (integrate (third str) ))
+					cons '+ (iterate (cdr str))
+				)
+			( 
+				if(and (eq (car str) '*) (listp (second str)) (listp (third str)) )
 					(
-						if(and (eq t (xpresent (second str)) ) (null (xpresent (third str)))) (list '* (third str) (integrate (second str) ))
+						if(and (eq t (xpresent (third str)) ) (null (xpresent (second str))) ) (list '* (second str) (integrate (third str) ))
 						(
-							if(and (null (xpresent (third str)) ) (null (xpresent (second str)))) str
+							if(and (eq t (xpresent (second str)) ) (null (xpresent (third str))) ) (list '* (third str) (integrate (second str) ))
 							(
-								;UV rule!!
-								if(eq (isNilPresent (starFun (list '* (starFun (tillN1 (cdr lis))) (diff (last list)))) ) T)
-									(
-										if(eq (isNilPresent (starFun (list '* (starFun (last lis)) (diff (tillN1 (cdr lis)))))) T) nil
-										(
-											starFun (list '* (starFun (last lis)) (diff (tillN1 (cdr lis))))
-										)
-									)
+								if(and (null (xpresent (third str)) ) (null (xpresent (second str))) ) str
 								(
-									starFun (list '* (starFun (tillN1 (cdr lis))) (diff (last list))))
+									;UV rule!!
+									;modify global parameter here
+									if(eq (isNilPresent (starFun (list '* (starFun (tillN1 (cdr lis))) (diff (last list))) (+ 1 coun) ) ) T)
+										(
+											if(eq (isNilPresent (starFun (list '* (starFun (last lis)) (diff (tillN1 (cdr lis)))) (+ 1 coun) ) ) T) nil
+											(
+												starFun (list '* (starFun (last lis)) (diff (tillN1 (cdr lis)))) (+ 1 coun)
+											)
+										)
+									(
+										starFun (list '* (starFun (tillN1 (cdr lis))) (diff (last list))) (+ 1 coun)
+									)
 								)
 							)
 						)
 					)
+				(
+				integrate  str
 				)
-			(
-			integrate  str
 			)
-        )
+		)    
     ))
 
 (defun iterate(block)
