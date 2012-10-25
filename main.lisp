@@ -3,8 +3,7 @@
 (defun integrate( block )
     (
         if(eq (listp block) nil) (integrate (list block))
-        (
-        
+        (        
 			if(eq (isNumber block) 4) (NumberI block)
 			(
 				if(eq (isSingle block) 1) (SingleI block)
@@ -16,7 +15,28 @@
 							if(eq (isInverse block) 5) (InverseI block)
 							(
 								if(eq (isExp block) 6) (ExpI block)
-								nil
+								
+			(
+				if(eq (isLn block) 7) (LnI block)
+				(
+					if(eq (isSin block) 8) (SinI block)
+					(
+						if(eq (isCos block) 9) (CosI block)
+						(
+							if(eq (isTan block) 10) (TanI block)
+							(
+								if(eq (isCot block) 11) (CotI block)
+								
+								(
+								  if(eq (isSec block) 12) (SecI block)
+								
+								  nil
+								)
+							)
+						)
+					)
+				)
+			)
 							)
 						)
 					)
@@ -230,5 +250,129 @@
         list '^ 'exp 'x
     ))    
 
-
+;====================================
         
+(defun isLn( unit )
+	(	
+	if( eq (car unit) 'ln)
+		( if( eq (second unit) 'x) 7
+		-1
+		)
+		(
+		;later expansion
+		)
+	)
+)
+
+(defun LnI(unit)
+	(list '-  '* (second unit) 'ln (second unit) (second unit))
+)
+
+
+(defun isSin(unit)
+	(	
+	if(or (eq (car unit) 'sin) (eq (car unit) 'Sin))
+		( if( eq (second unit) 'x) 
+			      8
+		-1
+		)
+
+		(
+		;later expansion
+		)
+
+	)
+)
+
+(defun SinI(unit)
+	(list '-Cos (second unit))	
+)
+
+
+
+(defun isCos(unit)
+	(	
+	if(or (eq (car unit) 'cos) (eq (car unit) 'Cos))
+		( if( eq (second unit) 'x) 
+		9
+		-1
+		)
+
+		(
+		;later expansion
+		)
+
+	)
+)
+
+
+(defun CosI(unit)
+	(list 'Sin (second unit))	
+)
+
+
+
+(defun isTan(unit)
+	(	
+	if(or (eq (car unit) 'tan) (eq (car unit) 'Tan))
+		( if( eq (second unit) 'x) 
+		10
+		-1
+		)
+
+		(
+		;later expansion
+		)
+
+	)
+)
+
+
+
+(defun TanI(unit)
+	(list 'ln 'Sec (second unit) )	
+)
+
+
+(defun isCot(unit)
+	(	
+	if(or (eq (car unit) 'cot) (eq (car unit) 'Cot))
+		( if( eq (second unit) 'x) 
+		11
+		-1
+		)
+
+		(
+		;later expansion
+		)
+
+	)
+)
+
+
+(defun CotI(unit)
+	(list 'ln 'Sin (second unit))	
+)
+
+
+
+
+(defun isSec(unit)
+	(	
+	if(or (eq (car unit) 'sec) (eq (car unit) 'Sec))
+		( if( eq (second unit) 'x) 
+		12
+		-1
+		)
+
+		(
+		;later expansion
+		)
+
+	)
+)
+
+
+(defun SecI(unit)
+	(list 'ln '+ 'Sec (second unit) 'Tan (second unit) )	
+)

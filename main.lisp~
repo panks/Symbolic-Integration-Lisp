@@ -1,12 +1,9 @@
 (load 'diff.lisp)
 
-(setf coun 0)
-
 (defun integrate( block )
     (
         if(eq (listp block) nil) (integrate (list block))
-        (
-        
+        (        
 			if(eq (isNumber block) 4) (NumberI block)
 			(
 				if(eq (isSingle block) 1) (SingleI block)
@@ -18,7 +15,28 @@
 							if(eq (isInverse block) 5) (InverseI block)
 							(
 								if(eq (isExp block) 6) (ExpI block)
-								nil
+								
+			(
+				if(eq (isLn block) 7) (LnI block)
+				(
+					if(eq (isSin block) 8) (SinI block)
+					(
+						if(eq (isCos block) 9) (CosI block)
+						(
+							if(eq (isTan block) 10) (TanI block)
+							(
+								if(eq (isCot block) 11) (CotI block)
+								
+								(
+								  if(eq (isSec block) 12) (SecI block)
+								
+								  nil
+								)
+							)
+						)
+					)
+				)
+			)
 							)
 						)
 					)
@@ -87,40 +105,44 @@
 	))
 	
 ;TODO e^x and ln x are not working
-(defun starFun( str )
+(defun starFun( str coun)
     (
-        if(eq (car str) '+) 
-			(
-				cons '+ (iterate (cdr str))
-			)
-        ( 
-			if(and (eq (car str) '*) (listp (second str)) (listp (third str)) )
+		if(= coun 100) nil
+		(
+			if(eq (car str) '+) 
 				(
-					if(and (eq t (xpresent (third str)) ) (null (xpresent (second str)))) (list '* (second str) (integrate (third str) ))
+					cons '+ (iterate (cdr str))
+				)
+			( 
+				if(and (eq (car str) '*) (listp (second str)) (listp (third str)) )
 					(
-						if(and (eq t (xpresent (second str)) ) (null (xpresent (third str)))) (list '* (third str) (integrate (second str) ))
+						if(and (eq t (xpresent (third str)) ) (null (xpresent (second str))) ) (list '* (second str) (integrate (third str) ))
 						(
-							if(and (null (xpresent (third str)) ) (null (xpresent (second str)))) str
+							if(and (eq t (xpresent (second str)) ) (null (xpresent (third str))) ) (list '* (third str) (integrate (second str) ))
 							(
-								;UV rule!!
-								if(eq (isNilPresent (starFun (list '* (starFun (tillN1 (cdr lis))) (diff (last list)))) ) T)
-									(
-										if(eq (isNilPresent (starFun (list '* (starFun (last lis)) (diff (tillN1 (cdr lis)))))) T) nil
-										(
-											starFun (list '* (starFun (last lis)) (diff (tillN1 (cdr lis))))
-										)
-									)
+								if(and (null (xpresent (third str)) ) (null (xpresent (second str))) ) str
 								(
-									starFun (list '* (starFun (tillN1 (cdr lis))) (diff (last list))))
+									;UV rule!!
+									;modify global parameter here
+									if(eq (isNilPresent (starFun (list '* (starFun (tillN1 (cdr lis))) (diff (last list))) (+ 1 coun) ) ) T)
+										(
+											if(eq (isNilPresent (starFun (list '* (starFun (last lis)) (diff (tillN1 (cdr lis)))) (+ 1 coun) ) ) T) nil
+											(
+												starFun (list '* (starFun (last lis)) (diff (tillN1 (cdr lis)))) (+ 1 coun)
+											)
+										)
+									(
+										starFun (list '* (starFun (tillN1 (cdr lis))) (diff (last list))) (+ 1 coun)
+									)
 								)
 							)
 						)
 					)
+				(
+				integrate  str
 				)
-			(
-			integrate  str
 			)
-        )
+		)    
     ))
 
 (defun iterate(block)
@@ -228,5 +250,129 @@
         list '^ 'exp 'x
     ))    
 
-
+;====================================
         
+(defun isLn( unit )
+	(	
+	if( eq (car unit) 'ln)
+		( if( eq (second unit) 'x) 7
+		-1
+		)
+		(
+		;later expansion
+		)
+	)
+)
+
+(defun LnI(unit)
+	(list '-  '* (second unit) 'ln (second unit) (second unit))
+)
+
+
+(defun isSin(unit)
+	(	
+	if(or (eq (car unit) 'sin) (eq (car unit) 'Sin))
+		( if( eq (second unit) 'x) 
+			      8
+		(print "error_in_sin")
+		)
+
+		(
+		;later expansion
+		)
+
+	)
+)
+
+(defun SinI(unit)
+	(list '-Cos (second unit))	
+)
+
+
+
+(defun isCos(unit)
+	(	
+	if(or (eq (car unit) 'cos) (eq (car unit) 'Cos))
+		( if( eq (second unit) 'x) 
+		9
+		(print "error_in_cos")
+		)
+
+		(
+		;later expansion
+		)
+
+	)
+)
+
+
+(defun CosI(unit)
+	(list 'Sin (second unit))	
+)
+
+
+
+(defun isTan(unit)
+	(	
+	if(or (eq (car unit) 'tan) (eq (car unit) 'Tan))
+		( if( eq (second unit) 'x) 
+		10
+		(print "error_in_tan")
+		)
+
+		(
+		;later expansion
+		)
+
+	)
+)
+
+
+
+(defun TanI(unit)
+	(list 'ln 'Sec (second unit) )	
+)
+
+
+(defun isCot(unit)
+	(	
+	if(or (eq (car unit) 'cot) (eq (car unit) 'Cot))
+		( if( eq (second unit) 'x) 
+		11
+		(print "error_in_cot")
+		)
+
+		(
+		;later expansion
+		)
+
+	)
+)
+
+
+(defun CotI(unit)
+	(list 'ln 'Sin (second unit))	
+)
+
+
+
+
+(defun isSec(unit)
+	(	
+	if(or (eq (car unit) 'sec) (eq (car unit) 'Sec))
+		( if( eq (second unit) 'x) 
+		12
+		(print "error_in_sec")
+		)
+
+		(
+		;later expansion
+		)
+
+	)
+)
+
+
+(defun SecI(unit)
+	(list 'ln '+ 'Sec (second unit) 'Tan (second unit) )	
+)
