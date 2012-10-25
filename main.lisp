@@ -274,7 +274,10 @@
 	if(or (eq (car unit) 'sin) (eq (car unit) 'Sin))
 		( if( eq (second unit) 'x) 
 			      8
-		-1
+		(	
+		  if(and (and (eq (second unit) '*) (eq (isNumber (list (third unit))) 4)) (eq (fourth unit) 'x)) 8
+		  -1
+		)
 		)
 
 		(
@@ -285,7 +288,10 @@
 )
 
 (defun SinI(unit)
-	(list '-Cos (second unit))	
+     (if (eq (length unit) 2)
+	(list '-Cos (second unit))
+	(list '* (third unit) '-Cos (fourth unit))
+	)
 )
 
 
@@ -295,7 +301,10 @@
 	if(or (eq (car unit) 'cos) (eq (car unit) 'Cos))
 		( if( eq (second unit) 'x) 
 		9
-		-1
+		(	
+		  if(and (and (eq (second unit) '*) (eq (isNumber (list (third unit))) 4)) (eq (fourth unit) 'x)) 9
+		  -1
+		)
 		)
 
 		(
@@ -307,7 +316,10 @@
 
 
 (defun CosI(unit)
-	(list 'Sin (second unit))	
+     (if (eq (length unit) 2)
+	(list 'Sin (second unit))
+	(list '* (third unit) 'Sin (fourth unit))
+      )
 )
 
 
@@ -317,7 +329,10 @@
 	if(or (eq (car unit) 'tan) (eq (car unit) 'Tan))
 		( if( eq (second unit) 'x) 
 		10
-		-1
+		(	
+		  if(and (and (eq (second unit) '*) (eq (isNumber (list (third unit))) 4)) (eq (fourth unit) 'x)) 10
+		  -1
+		)
 		)
 
 		(
@@ -330,7 +345,10 @@
 
 
 (defun TanI(unit)
+     (if (eq (length unit) 2)
 	(list 'ln 'Sec (second unit) )	
+	(list '* (third unit) 'ln 'Sec (fourth unit))
+      )
 )
 
 
@@ -339,7 +357,10 @@
 	if(or (eq (car unit) 'cot) (eq (car unit) 'Cot))
 		( if( eq (second unit) 'x) 
 		11
-		-1
+		(	
+		  if(and (and (eq (second unit) '*) (eq (isNumber (list (third unit))) 4)) (eq (fourth unit) 'x)) 11
+		  -1
+		)
 		)
 
 		(
@@ -351,7 +372,10 @@
 
 
 (defun CotI(unit)
+     (if (eq (length unit) 2)
 	(list 'ln 'Sin (second unit))	
+	(list '* (third unit) 'ln 'Sin (fourth unit))
+      )
 )
 
 
@@ -362,7 +386,10 @@
 	if(or (eq (car unit) 'sec) (eq (car unit) 'Sec))
 		( if( eq (second unit) 'x) 
 		12
-		-1
+		(	
+		  if(and (and (eq (second unit) '*) (eq (isNumber (list (third unit))) 4)) (eq (fourth unit) 'x)) 12
+		  -1
+		)
 		)
 
 		(
@@ -374,5 +401,8 @@
 
 
 (defun SecI(unit)
+     (if (eq (length unit) 2)
 	(list 'ln '+ 'Sec (second unit) 'Tan (second unit) )	
+	(list '* (third unit) 'ln '+ 'Sec (fourth unit) 'Tan (fourth unit) )
+      )
 )
