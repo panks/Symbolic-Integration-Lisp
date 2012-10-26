@@ -362,7 +362,7 @@
 
 (defun SinI(unit)
      (if (listp (second unit))
-	 (list '* (list '/ -1 (second (second unit))) (list 'Cos (third (second unit))) )
+	 (list '* (list '/ -1 (second (second unit))) (list 'Cos (list '* (second (second unit)) (third (second unit)))) )
 	(list '*  (list -1) (list 'Cos (second unit)) )
 	
 	)
@@ -397,10 +397,10 @@
 
 (defun CosI(unit)
      (if (listp (second unit))
-	(list '/ (list 'Sin (third (second unit)))  (second (second unit)) )
-	(list 'Sin (second unit))
+	 (list '* (list '/ -1 (second (second unit))) (list 'sin (list '* (second (second unit)) (third (second unit)))) )
+	 (list 'sin (second unit))
 	
-      )
+	)
 )
 
 
@@ -432,7 +432,7 @@
 
 (defun TanI(unit)
      (if (listp (second unit))
-	(list '/ (list 'ln 'Sec (third (second unit))) (second (second unit)))
+	(list '/ (list 'ln 'Sec (list '* (second (second unit)) (third (second unit))) ) (second (second unit)))
 	(list 'ln 'Sec (second unit) )	
 	
       )
@@ -465,7 +465,7 @@
 
 (defun CotI(unit)
      (if (listp (second unit))
-	(list '/ (list 'ln 'Sin (third (second unit))) (second (second unit)))
+	(list '/ (list 'ln 'Sin (list '* (second (second unit)) (third (second unit)))) (second (second unit)))
 	(list 'ln 'Sin (second unit))	
 
       )
@@ -500,7 +500,7 @@
 
 (defun SecI(unit)
      (if (listp (second unit))
-	(list '/ (list 'ln  (list '+ 'Sec (third (second unit)) 'Tan (third (second unit))) ) (second (second unit)))
+	(list '/ (list 'ln  (list '+ 'Sec (list '* (second (second unit)) (third (second unit))) 'Tan (list '* (second (second unit)) (third (second unit)))) ) (second (second unit)))
 	(list 'ln  (list '+ 'Sec (second unit) 'Tan (second unit)) )	
 
       )
@@ -533,7 +533,7 @@
 
 (defun CosecI(unit)
      (if (listp (second unit))
-	(list '/ (list '-ln  (list '+ 'Cosec (third (second unit)) 'cot (third (second unit))) ) (second (second unit)))
+	(list '/ (list '-ln  (list '+ 'Cosec (list '* (second (second unit)) (third (second unit))) 'cot (list '* (second (second unit)) (third (second unit)))) ) (second (second unit)))
 	(list '-ln  (list '+ 'cosec (second unit) 'cot (second unit)) )
       )
 )

@@ -34,19 +34,19 @@
 								    (
 								      if(eq (isCosecD block) 13) (CosecD block)
 								     (
-			        if(eq (isSinD block) 14) (SinD block)
+			        if(eq (isSinhD block) 14) (SinhD block)
 					(
-						if(eq (isCosD block) 5) (CosD block)
+						if(eq (isCoshD block) 5) (CoshD block)
 						(
-							if(eq (isTanD block) 16) (TanD block)
+							if(eq (isTanhD block) 16) (TanhD block)
 							(
-								if(eq (isCotD block) 17) (CotD block)
+								if(eq (isCothD block) 17) (CothD block)
 								
 								(
-								  if(eq (isSecD block) 18) (SecD block)
+								  if(eq (isSechD block) 18) (SechD block)
 								
 								    (
-								      if(eq (isCosecD block) 19) (CosecD block)
+								      if(eq (isCosechD block) 19) (CosechD block)
 								
 									nil
 								    )
