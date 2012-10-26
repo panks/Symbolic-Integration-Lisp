@@ -194,7 +194,7 @@
 
 (defun iterate(block)
     (
-        if(eq (length block) 1)   (list (integrate (car block)))
+        if(eq (length block) 1)   (list (starFun (car block) 0))
         (
         cons (starFun (car block) 0) (iterate (cdr block)))
     ))
