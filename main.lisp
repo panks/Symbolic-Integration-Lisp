@@ -41,7 +41,28 @@
 								    (
 								      if(eq (isCosec block) 13) (CosecI block)
 								
+				(
+					if(eq (isSinh block) 14) (SinhI block)
+					(
+						if(eq (isCosh block) 15) (CoshI block)
+						(
+							if(eq (isTanh block) 16) (TanhI block)
+							(
+								if(eq (isCoth block) 17) (CothI block)
+								
+								(
+								  if(eq (isSech block) 18) (SechI block)
+								
+								    (
+								      if(eq (isCosech block) 19) (CosechI block)
+								
 									nil
+								    )
+								)
+							)
+						)
+					)
+				)
 								    )
 								)
 							)
@@ -57,6 +78,7 @@
 		
         )
     ))
+
 
 (defun isSimple( block )
     (        
@@ -362,7 +384,7 @@
 
 (defun SinI(unit)
      (if (listp (second unit))
-	 (list '* (list '/ -1 (second (second unit))) (list 'Cos (list '* (second (second unit)) (third (second unit)))) )
+	  (list '* (list '/ -1 (second (second unit))) (list 'Cos (list '* (second (second unit)) (third (second unit)))) )
 	(list '*  (list -1) (list 'Cos (second unit)) )
 	
 	)
@@ -397,10 +419,10 @@
 
 (defun CosI(unit)
      (if (listp (second unit))
-	 (list '* (list '/ -1 (second (second unit))) (list 'sin (list '* (second (second unit)) (third (second unit)))) )
-	 (list 'sin (second unit))
+	(list '* (list '/ 1 (second (second unit))) (list 'sin (list '* (second (second unit)) (third (second unit)))) )
+	(list 'Sin (second unit))
 	
-	)
+      )
 )
 
 
@@ -432,7 +454,7 @@
 
 (defun TanI(unit)
      (if (listp (second unit))
-	(list '/ (list 'ln 'Sec (list '* (second (second unit)) (third (second unit))) ) (second (second unit)))
+	(list '* (list '/ 1 (second (second unit))) (list 'ln 'Sec (list '* (second (second unit)) (third (second unit)))) )
 	(list 'ln 'Sec (second unit) )	
 	
       )
@@ -465,8 +487,8 @@
 
 (defun CotI(unit)
      (if (listp (second unit))
-	(list '/ (list 'ln 'Sin (list '* (second (second unit)) (third (second unit)))) (second (second unit)))
-	(list 'ln 'Sin (second unit))	
+	(list '* (list '/ 1 (second (second unit))) (list 'ln 'Sin (list '* (second (second unit)) (third (second unit)))) )
+	(list 'ln 'Sin (second unit) )	
 
       )
 )
@@ -500,7 +522,7 @@
 
 (defun SecI(unit)
      (if (listp (second unit))
-	(list '/ (list 'ln  (list '+ 'Sec (list '* (second (second unit)) (third (second unit))) 'Tan (list '* (second (second unit)) (third (second unit)))) ) (second (second unit)))
+	(list '* (list '/ 1 (second (second unit))) (list 'ln  (list '+ 'Sec (list '* (second (second unit)) (third (second unit))) 'Tan (list '* (second (second unit)) (third (second unit)))) ) )
 	(list 'ln  (list '+ 'Sec (second unit) 'Tan (second unit)) )	
 
       )
@@ -533,9 +555,217 @@
 
 (defun CosecI(unit)
      (if (listp (second unit))
-	(list '/ (list '-ln  (list '+ 'Cosec (list '* (second (second unit)) (third (second unit))) 'cot (list '* (second (second unit)) (third (second unit)))) ) (second (second unit)))
-	(list '-ln  (list '+ 'cosec (second unit) 'cot (second unit)) )
+	(list '* (list '/ -1 (second (second unit))) (list 'ln  (list '+ 'cosec (list '* (second (second unit)) (third (second unit))) 'cot (list '* (second (second unit)) (third (second unit)))) ) )
+	(list '* (list -1) (list 'ln  (list '+ 'cosec (second unit) 'cot (second unit)) ))	
+
       )
+)
+
+
+;;================================================ trigo hyperbolic ============================================================
+
+
+
+(defun isSinh(unit)
+	(	
+	if(or (eq (car unit) 'sinh) (eq (car unit) 'Sinh))
+		( if( eq (second unit) 'x) 
+			      14
+		(	
+		 ; if(and (eq (second unit) '*) (eq (isNumber (list (third unit))) 4) (eq (fourth unit) 'x)) 8
+		  if (and
+		  (listp (second  unit))
+		  (eq (first (second unit)) '*)
+		  (numberp (second (second unit)))
+		  (eq (third (second unit)) 'x)
+		  )14
+		  -1
+		)
+		)
+
+		(
+		;later expansion
+		)
+
+	)
+)
+
+(defun SinhI(unit)
+     (if (listp (second unit))
+	 (list '* (list '/ 1 (second (second unit))) (list 'Cosh (list '* (second (second unit)) (third (second unit))) ))
+	 (list 'Cosh (second unit) )
+	
+	)
+)
+
+
+
+(defun isCosh(unit)
+	(	
+	if(or (eq (car unit) 'cosh) (eq (car unit) 'Cosh))
+		( if( eq (second unit) 'x) 
+		15
+		(
+		
+		  if (and
+		  (listp (second  unit))
+		  (eq (first (second unit)) '*)
+		  (numberp (second (second unit)))
+		  (eq (third (second unit)) 'x)
+		  )15
+		  -1
+		)
+		)
+
+		(
+		;later expansion
+		)
+
+	)
+)
+
+
+(defun CoshI(unit)
+     (if (listp (second unit))
+	 (list '* (list '/ 1 (second (second unit))) (list 'sinh (list '* (second (second unit)) (third (second unit))) ))
+	(list 'Sinh (second unit))
+	
+      )
+)
+
+
+
+(defun isTanh(unit)
+	(	
+	if(or (eq (car unit) 'tanh) (eq (car unit) 'Tanh))
+		( if( eq (second unit) 'x) 
+		16
+		(	
+		  if (and
+		  (listp (second  unit))
+		  (eq (first (second unit)) '*)
+		  (numberp (second (second unit)))
+		  (eq (third (second unit)) 'x)
+		  )16
+		  -1
+		)
+		)
+
+		(
+		;later expansion
+		)
+
+	)
+)
+
+
+
+(defun TanhI(unit)
+     (if (listp (second unit))
+	(list '* (list '/ 1 (second (second unit))) (list 'ln 'cosh (list '* (second (second unit)) (third (second unit)))) )
+	(list 'ln 'cosh (second unit) )	
+	
+      )
+)
+
+
+(defun isCoth(unit)
+	(	
+	if(or (eq (car unit) 'coth) (eq (car unit) 'Coth))
+		( if( eq (second unit) 'x) 
+		17
+		(	
+		  if (and
+		  (listp (second  unit))
+		  (eq (first (second unit)) '*)
+		  (numberp (second (second unit)))
+		  (eq (third (second unit)) 'x)
+		  )17
+		  -1
+		)
+		)
+
+		(
+		;later expansion
+		)
+
+	)
+)
+
+
+(defun CothI(unit)
+     (if (listp (second unit))
+	(list '* (list '/ 1 (second (second unit))) (list 'ln 'sinh (list '* (second (second unit)) (third (second unit)))) )
+	(list 'ln 'Sinh (second unit))	
+
+      )
+)
+
+
+
+
+(defun isSech(unit)
+	(	
+	if(or (eq (car unit) 'sech) (eq (car unit) 'Sech))
+		( if( eq (second unit) 'x) 
+		18
+		(	
+		  if (and
+		  (listp (second  unit))
+		  (eq (first (second unit)) '*)
+		  (numberp (second (second unit)))
+		  (eq (third (second unit)) 'x)
+		  )18
+		  -1
+		)
+		)
+
+		(
+		;later expansion
+		)
+
+	)
+)
+
+
+(defun SechI(unit)
+     (if (listp (second unit))
+	(list '* (list '/ 1 (second (second unit))) (list 'arctan  (list 'Sinh ( list '* (second (second unit)) (third (second unit)))) ) )
+	(list 'acrtan  (list 'Sinh (second unit)) )	
+
+      )
+)
+
+
+(defun isCosech(unit)
+	(	
+	if(or (eq (car unit) 'cosech) (eq (car unit) 'cosech))
+		( if( eq (second unit) 'x) 
+		19
+		(	
+		  if (and
+		  (listp (second  unit))
+		  (eq (first (second unit)) '*)
+		  (numberp (second (second unit)))
+		  (eq (third (second unit)) 'x)
+		  )19
+		  -1
+		)
+		)
+
+		(
+		;later expansion
+		)
+
+	)
+)
+
+
+(defun CosechI(unit)
+	(if (listp (second unit))
+	(list '* (list '/ 1 (second (second unit))) (list 'ln 'tanh (list '* (list '/ (second (second unit)) 2) (third (second unit))) ) )
+	(list 'ln 'tanh (list '/ (second unit) 2) )	
+	)
 )
 
 
