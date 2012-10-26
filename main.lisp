@@ -135,11 +135,6 @@
 		;valpresent lis nil
 	))
 
-(defun singleton (lis)
-	(
-		
-	))
-	
 (defun tillN1 (lis)
 	(
 		if(<= (length lis) 2) (list (car lis))
@@ -199,7 +194,7 @@
 
 (defun iterate(block)
     (
-        if(eq (length block) 1)   (list (starFun (car block) 0))
+        if(eq (length block) 1)   (list (integrate (car block)))
         (
         cons (starFun (car block) 0) (iterate (cdr block)))
     ))
