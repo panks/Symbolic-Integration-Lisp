@@ -33,8 +33,29 @@
 								
 								    (
 								      if(eq (isCosecD block) 13) (CosecD block)
+								     (
+			        if(eq (isSinD block) 14) (SinD block)
+					(
+						if(eq (isCosD block) 5) (CosD block)
+						(
+							if(eq (isTanD block) 16) (TanD block)
+							(
+								if(eq (isCotD block) 17) (CotD block)
+								
+								(
+								  if(eq (isSecD block) 18) (SecD block)
+								
+								    (
+								      if(eq (isCosecD block) 19) (CosecD block)
 								
 									nil
+								    )
+								)
+							)
+						)
+					)
+								     )
+									    
 								    )
 								)
 							)
@@ -74,11 +95,17 @@
         (
             if(eq (third unit) 0)
                 (list 0)      
-            (list '* (list (third unit)) (list '^ (second unit) (- (third unit) 1)) (diff (second unit)))
+            (
+                if(eq (third unit) 1) (list (diff (second unit)))
+                (list '* (list (third unit)) (list '^ (second unit) (- (third unit) 1)) (diff (second unit)))
+            )
             
         )
-        (    if(eq (third unit) 0) (list 0) 
-            (list '* (list (third unit)) (list '^ (second unit) (- (third unit) 1)) )
+        (    if(eq (third unit) 0) (list 0)
+             (
+                if(eq (third unit) 1) (list 1) 
+                (list '* (list (third unit)) (list '^ (second unit) (- (third unit) 1)) )
+             )
         )
     ))
     
@@ -361,3 +388,185 @@
 		)
 	)
 )
+
+(defun isSinhD(unit)
+	(	
+	if(or (eq (car unit) 'sinh) (eq (car unit) 'Sinh))
+		( if( eq (second unit) 'x) 
+			      14
+		(	
+		 ; if(and (eq (second unit) '*) (eq (isNumber (list (third unit))) 4) (eq (fourth unit) 'x)) 8
+		  if (and
+		  (listp (second  unit))
+		  (eq (first (second unit)) '*)
+		  (numberp (second (second unit)))
+		  (eq (third (second unit)) 'x)
+		  )8
+		  -1
+		)
+		)
+
+		(
+		;later expansion
+		)
+
+	)
+)
+
+
+(defun isCoshD(unit)
+	(	
+	if(or (eq (car unit) 'cosh) (eq (car unit) 'Cosh))
+		( if( eq (second unit) 'x) 
+		15
+		(
+		
+		  if (and
+		  (listp (second  unit))
+		  (eq (first (second unit)) '*)
+		  (numberp (second (second unit)))
+		  (eq (third (second unit)) 'x)
+		  )9
+		  -1
+		)
+		)
+
+		(
+		;later expansion
+		)
+
+	)
+)
+
+
+(defun isTanhD(unit)
+	(	
+	if(or (eq (car unit) 'tanh) (eq (car unit) 'Tanh))
+		( if( eq (second unit) 'x) 
+		16
+		(	
+		  if (and
+		  (listp (second  unit))
+		  (eq (first (second unit)) '*)
+		  (numberp (second (second unit)))
+		  (eq (third (second unit)) 'x)
+		  )10
+		  -1
+		)
+		)
+
+		(
+		;later expansion
+		)
+
+	)
+)
+
+
+(defun isCothD(unit)
+	(	
+	if(or (eq (car unit) 'coth) (eq (car unit) 'Coth))
+		( if( eq (second unit) 'x) 
+		17
+		(	
+		  if (and
+		  (listp (second  unit))
+		  (eq (first (second unit)) '*)
+		  (numberp (second (second unit)))
+		  (eq (third (second unit)) 'x)
+		  )11
+		  -1
+		)
+		)
+
+		(
+		;later expansion
+		)
+
+	)
+)
+
+
+(defun isSechD(unit)
+	(	
+	if(or (eq (car unit) 'sech) (eq (car unit) 'Sech))
+		( if( eq (second unit) 'x) 
+		18
+		(	
+		  if (and
+		  (listp (second  unit))
+		  (eq (first (second unit)) '*)
+		  (numberp (second (second unit)))
+		  (eq (third (second unit)) 'x)
+		  )12
+		  -1
+		)
+		)
+
+		(
+		;later expansion
+		)
+
+	)
+)
+
+
+(defun isCosechD(unit)
+	(	
+	if(or (eq (car unit) 'cosech) (eq (car unit) 'Cosech))
+		( if( eq (second unit) 'x) 
+		19
+		(	
+		  if (and
+		  (listp (second  unit))
+		  (eq (first (second unit)) '*)
+		  (numberp (second (second unit)))
+		  (eq (third (second unit)) 'x)
+		  )13
+		  -1
+		)
+		)
+
+		(
+		;later expansion
+		)
+
+	)
+)
+
+(defun SinhD( unit)
+    (
+        if(listp (second unit)) (list '* (list 'cosh (second unit)) (diff (second unit)))
+        (list 'cosh (second unit)) 
+    ))
+    
+(defun CoshD( unit)
+    (
+        if(listp (second unit)) (list '* (list 'sinh (second unit)) (list (diff (second unit))))
+        (list '*  'sinh (second unit)  )
+    ))        
+
+(defun TanhD( unit)
+    (
+        if(listp (second unit)) (list '* (list 'sech (second unit)) (list 'sech (second unit)) (diff (second unit)))
+        (list '* (list 'sech (second unit)) (list 'sech (second unit)))
+    ))
+
+(defun cothD( unit)
+    (
+        if(listp (second unit)) (list '* -1 (list 'cosec (second unit)) (list 'cosec (second unit)) (diff (second unit)))
+        (list '* (list -1) (list 'cosech (second unit)) (list 'cosech (second unit)))
+    ))
+
+(defun SechD( unit)
+    (
+        if(listp (second unit)) (list '* (list 'sec (second unit)) (list 'tan (second unit)) (diff (second unit)))
+        (list '* (list -1) (list 'sech (second unit)) (list 'tanh (second unit)))
+    ))    
+      
+(defun cosechD( unit)
+    (
+        if(listp (second unit)) (list '* -1 (list 'cot (second unit)) (list 'cosec (second unit)) (diff (second unit)))
+        (list '* (list -1) (list 'coth (second unit)) (list 'cosech (second unit)))
+    ))      
+      
