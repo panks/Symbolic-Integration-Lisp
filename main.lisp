@@ -165,7 +165,7 @@
 	
 (defun top (func)
     (
-        cons '+ (cons 'C (starFun func 0))
+        cons '+ (cons 'C (list (starFun func 0)))
     ))
 
 (defun starFun( str coun)
@@ -194,13 +194,13 @@
 										    ( ;print "2"
 											    if(eq (isNilPresent (starFun (list '* (starFun (car (last str)) 0) (diff (car (tillN1 (cdr str))) )) (+ 1 coun) ) ) T) nil
 											    (
-												    cons (list '* (starFun (car (last str)) 0) (car (tillN1  (cdr str) )) )  (list ( starFun (list '* (list (* -1 (^ -1 (mod coun 2)))) (starFun (car (last str )) 0)  (diff (car (tillN1 (cdr str))))) 0 ))
+												    list '+ (list '* (starFun (car (last str)) 0) (car (tillN1  (cdr str) )) )  (list '* (list (* -1 (^ -1 (mod coun 2)))) ( starFun (list '* (starFun (car (last str )) 0)  (diff (car (tillN1 (cdr str))))) 0 ))
 											    )
 											
 										    )
 									    ( ;print "1"
 									        ;list '* (starFun (tillN1  str) 0) (car (last str) ) 
-										    cons  (list '* (starFun (car (tillN1  (cdr str) ) ) 0) (car (last str) ) ) (list (starFun (list '* (list (* -1 (^ -1 (mod coun 2)))) (starFun (car (tillN1  (cdr str))) 0) (diff (car (last str)))) 0))
+										    list '+  (list '* (starFun (car (tillN1  (cdr str) ) ) 0) (car (last str) ) ) (list '* (list (* -1 (^ -1 (mod coun 2)))) (starFun (list '* (starFun (car (tillN1  (cdr str))) 0) (diff (car (last str))) ) 0))
 									    )
 								    )
 							    )
