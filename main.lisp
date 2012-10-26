@@ -150,7 +150,7 @@
     (
         if(eq (listp str) nil) (starFun  (list str) coun)
         (
-		    if(= coun 5) nil
+		    if(= coun 7) nil
 		    (
 			    if(eq (car str) '+) 
 				    (
