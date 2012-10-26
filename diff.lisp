@@ -70,8 +70,16 @@
     
 (defun PowD ( unit )
     (
-        if(listp (second unit)) (list '* (list (third unit)) (list '^ (second unit) (- (third unit) 1)) (diff (second unit)))
-        (list '* (list (third unit)) (list '^ (second unit) (- (third unit) 1)) )
+        if(listp (second unit)) 
+        (
+            if(eq (third unit) 0)
+                (list 0)      
+            (list '* (list (third unit)) (list '^ (second unit) (- (third unit) 1)) (diff (second unit)))
+            
+        )
+        (    if(eq (third unit) 0) (list 0) 
+            (list '* (list (third unit)) (list '^ (second unit) (- (third unit) 1)) )
+        )
     ))
     
 (defun XD (unit )
@@ -81,7 +89,7 @@
     
 ( defun MultD( unit )
     (
-        if(listp (third unit)) (list '* (list (second unit)) (list (diff (third unit))))
+        if(listp (third unit)) (list '* (second unit) (diff (third unit)))
          (second unit)
     ))   
 
