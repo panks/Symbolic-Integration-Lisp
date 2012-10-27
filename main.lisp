@@ -168,6 +168,64 @@
         cons '+ (cons 'C (list (starFun func 0)))
     ))
 
+(defun searchpattern ( func deri)
+	(
+		if(null func) nil
+		(
+			if(equal func deri) T
+			(
+				if(listp (car func)) 
+					(
+						if(null (searchpattern (car func) deri)) 
+							(
+								if(equal (car func) deri) T
+								(
+									searchpattern (cdr func) deri
+								)
+							)
+							T
+					)
+				(
+					searchpattern (cdr func) deri
+				)
+			)
+		)
+	))
+    
+(defun searchAndReplace ( func deri val)
+	(
+		if(null func) func
+		(
+			if(equal func deri) 
+				(
+					if(listp deri)
+						(
+							if(listp val) val
+							(list val)
+						)
+					val
+					
+				)
+			(
+				if(listp func)
+					(cons (searchAndReplace (car func) deri val) (searchAndReplace (cdr func) deri val))
+				func
+			)
+		)
+	))
+
+(defun substitution	(func deri)
+	(
+		if(null (searchpattern func deri)) nil
+		(
+			if(null (xpresent (searchAndReplace func deri 'z)))
+				(
+					searchAndReplace (starFun (searchAndReplace (searchAndReplace func deri 'z) 'z 'x) 0) 'x deri
+				)
+			nil	
+		)
+	))
+	
 (defun starFun( str coun)
     (
         if(eq (listp str) nil) (starFun  (list str) coun)
@@ -187,7 +245,10 @@
 							    if(and (eq t (xpresent (second str)) ) (null (xpresent (third str))) ) (list '* (third str) (starFun (second str) 0))
 							    (
 								    if(and (null (xpresent (third str)) ) (null (xpresent (second str))) ) (list '* str 'x)
-								    ( 
+								    (
+										; adding the rules for substitution here
+										
+										
 									    ;UV rule!!
 									    ;modify global parameter here
 									    if(eq (isNilPresent (starFun (list '* (starFun (car (tillN1 (cdr str))) 0) (diff  (car(last str)))) (+ 1 coun) ) ) T)
