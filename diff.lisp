@@ -3,6 +3,8 @@
     (
         ;; TODO add selection rules 
         ;XD lis
+        if(null (xpresent block)) (list 0)
+        (
         if(eq (listp block) nil) (mainDiff (list block))
         (
 			if(eq (isNumberD block) 4) (list 0)
@@ -69,6 +71,7 @@
 					)
 				)
 			)
+        )
         )
     ))
 

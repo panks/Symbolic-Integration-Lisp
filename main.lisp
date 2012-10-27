@@ -41,7 +41,28 @@
 								    (
 								      if(eq (isCosec block) 13) (CosecI block)
 								
+				(
+					if(eq (isSinh block) 14) (SinhI block)
+					(
+						if(eq (isCosh block) 15) (CoshI block)
+						(
+							if(eq (isTanh block) 16) (TanhI block)
+							(
+								if(eq (isCoth block) 17) (CothI block)
+								
+								(
+								  if(eq (isSech block) 18) (SechI block)
+								
+								    (
+								      if(eq (isCosech block) 19) (CosechI block)
+								
 									nil
+								    )
+								)
+							)
+						)
+					)
+				)
 								    )
 								)
 							)
@@ -57,6 +78,7 @@
 		
         )
     ))
+
 
 (defun isSimple( block )
     (        
@@ -143,14 +165,84 @@
 	
 (defun top (func)
     (
-        cons '+ (cons 'C (starFun func 0))
+        cons '+ (cons 'C (list (starFun func 0)))
     ))
 
+(defun searchpattern ( func deri)
+	(
+		if(null func) nil
+		(
+			if(equal func deri) T
+			(
+				if(listp (car func)) 
+					(
+						if(null (searchpattern (car func) deri)) 
+							(
+								if(equal (car func) deri) T
+								(
+									searchpattern (cdr func) deri
+								)
+							)
+							T
+					)
+				(
+					searchpattern (cdr func) deri
+				)
+			)
+		)
+	))
+    
+(defun searchAndReplace ( func deri val)
+	;(setf state 0)
+	(
+		if(null func) func
+		(
+			if(equal func deri) 
+				(
+					if(listp deri)
+						(
+							if(listp val) val
+							(list val)
+						)
+					val
+					
+				)
+			(
+				if(listp func)
+				(	
+					if(listp (searchAndReplace (car func) deri val))
+					(	
+						if(eq (length (searchAndReplace (car func) deri val)) 1)
+							(
+								cons (car (searchAndReplace (car func) deri val)) (searchAndReplace (cdr func) deri val)
+							)
+						(cons (searchAndReplace (car func) deri val) (searchAndReplace (cdr func) deri val))
+					)
+					(cons (searchAndReplace (car func) deri val) (searchAndReplace (cdr func) deri val))
+				)
+				func
+			)
+		)
+	))
+
+(defun substitution	(func deri)
+	(setf intd (starFun deri 0))
+	(
+		if(null (searchpattern func intd)) nil
+		(
+			if(null (xpresent (searchAndReplace func intd 'z)))
+				(
+					searchAndReplace (starFun (searchAndReplace (searchAndReplace func intd 'z) 'z 'x) 0) 'x intd
+				)
+			nil	
+		)
+	))
+	
 (defun starFun( str coun)
     (
         if(eq (listp str) nil) (starFun  (list str) coun)
         (
-		    if(= coun 5) nil
+		    if(= coun 7) nil
 		    (
 			    if(eq (car str) '+) 
 				    (
@@ -165,21 +257,31 @@
 							    if(and (eq t (xpresent (second str)) ) (null (xpresent (third str))) ) (list '* (third str) (starFun (second str) 0))
 							    (
 								    if(and (null (xpresent (third str)) ) (null (xpresent (second str))) ) (list '* str 'x)
-								    ( 
-									    ;UV rule!!
-									    ;modify global parameter here
-									    if(eq (isNilPresent (starFun (list '* (starFun (car (tillN1 (cdr str))) 0) (diff  (car(last str)))) (+ 1 coun) ) ) T)
-										    ( ;print "2"
-											    if(eq (isNilPresent (starFun (list '* (starFun (car (last str)) 0) (diff (car (tillN1 (cdr str))) )) (+ 1 coun) ) ) T) nil
-											    (
-												    cons (list '* (starFun (car (last str)) 0) (car (tillN1  (cdr str) )) )  (list ( starFun (list '* (list (* -1 (^ -1 (mod coun 2)))) (starFun (car (last str )) 0)  (diff (car (tillN1 (cdr str))))) 0 ))
-											    )
+								    (
+										; adding the rules for substitution here
+										if(null (substitution (third str) (second str)))
+											(
+												if(null (substitution (second str) (third str)))
+												(
 											
-										    )
-									    ( ;print "1"
-									        ;list '* (starFun (tillN1  str) 0) (car (last str) ) 
-										    cons  (list '* (starFun (car (tillN1  (cdr str) ) ) 0) (car (last str) ) ) (list (starFun (list '* (list (* -1 (^ -1 (mod coun 2)))) (starFun (car (tillN1  (cdr str))) 0) (diff (car (last str)))) 0))
-									    )
+													;UV rule!!
+													;modify global parameter here
+													if(eq (isNilPresent (starFun (list '* (starFun (car (tillN1 (cdr str))) 0) (diff  (car(last str)))) (+ 1 coun) ) ) T)
+														( ;print "2"
+															if(eq (isNilPresent (starFun (list '* (starFun (car (last str)) 0) (diff (car (tillN1 (cdr str))) )) (+ 1 coun) ) ) T) nil
+															(
+																list '+ (list '* (starFun (car (last str)) 0) (car (tillN1  (cdr str) )) )  (list '* (list (* -1 (^ -1 (mod coun 2)))) ( starFun (list '* (starFun (car (last str )) 0)  (diff (car (tillN1 (cdr str))))) 0 ))
+															)
+														
+														)
+													( ;print "1"
+														;list '* (starFun (tillN1  str) 0) (car (last str) ) 
+														list '+  (list '* (starFun (car (tillN1  (cdr str) ) ) 0) (car (last str) ) ) (list '* (list (* -1 (^ -1 (mod coun 2)))) (starFun (list '* (starFun (car (tillN1  (cdr str))) 0) (diff (car (last str))) ) 0))
+													)
+												)
+												(substitution (second str) (third str))
+											)
+											(substitution (third str) (second str))
 								    )
 							    )
 						    )
@@ -362,7 +464,7 @@
 
 (defun SinI(unit)
      (if (listp (second unit))
-	 (list '* (list '/ -1 (second (second unit))) (list 'Cos (list '* (second (second unit)) (third (second unit)))) )
+	  (list '* (list '/ -1 (second (second unit))) (list 'Cos (list '* (second (second unit)) (third (second unit)))) )
 	(list '*  (list -1) (list 'Cos (second unit)) )
 	
 	)
@@ -397,10 +499,10 @@
 
 (defun CosI(unit)
      (if (listp (second unit))
-	 (list '* (list '/ -1 (second (second unit))) (list 'sin (list '* (second (second unit)) (third (second unit)))) )
-	 (list 'sin (second unit))
+	(list '* (list '/ 1 (second (second unit))) (list 'sin (list '* (second (second unit)) (third (second unit)))) )
+	(list 'Sin (second unit))
 	
-	)
+      )
 )
 
 
@@ -432,7 +534,7 @@
 
 (defun TanI(unit)
      (if (listp (second unit))
-	(list '/ (list 'ln 'Sec (list '* (second (second unit)) (third (second unit))) ) (second (second unit)))
+	(list '* (list '/ 1 (second (second unit))) (list 'ln 'Sec (list '* (second (second unit)) (third (second unit)))) )
 	(list 'ln 'Sec (second unit) )	
 	
       )
@@ -465,8 +567,8 @@
 
 (defun CotI(unit)
      (if (listp (second unit))
-	(list '/ (list 'ln 'Sin (list '* (second (second unit)) (third (second unit)))) (second (second unit)))
-	(list 'ln 'Sin (second unit))	
+	(list '* (list '/ 1 (second (second unit))) (list 'ln 'Sin (list '* (second (second unit)) (third (second unit)))) )
+	(list 'ln 'Sin (second unit) )	
 
       )
 )
@@ -500,7 +602,7 @@
 
 (defun SecI(unit)
      (if (listp (second unit))
-	(list '/ (list 'ln  (list '+ 'Sec (list '* (second (second unit)) (third (second unit))) 'Tan (list '* (second (second unit)) (third (second unit)))) ) (second (second unit)))
+	(list '* (list '/ 1 (second (second unit))) (list 'ln  (list '+ 'Sec (list '* (second (second unit)) (third (second unit))) 'Tan (list '* (second (second unit)) (third (second unit)))) ) )
 	(list 'ln  (list '+ 'Sec (second unit) 'Tan (second unit)) )	
 
       )
@@ -533,9 +635,217 @@
 
 (defun CosecI(unit)
      (if (listp (second unit))
-	(list '/ (list '-ln  (list '+ 'Cosec (list '* (second (second unit)) (third (second unit))) 'cot (list '* (second (second unit)) (third (second unit)))) ) (second (second unit)))
-	(list '-ln  (list '+ 'cosec (second unit) 'cot (second unit)) )
+	(list '* (list '/ -1 (second (second unit))) (list 'ln  (list '+ 'cosec (list '* (second (second unit)) (third (second unit))) 'cot (list '* (second (second unit)) (third (second unit)))) ) )
+	(list '* (list -1) (list 'ln  (list '+ 'cosec (second unit) 'cot (second unit)) ))	
+
       )
+)
+
+
+;;================================================ trigo hyperbolic ============================================================
+
+
+
+(defun isSinh(unit)
+	(	
+	if(or (eq (car unit) 'sinh) (eq (car unit) 'Sinh))
+		( if( eq (second unit) 'x) 
+			      14
+		(	
+		 ; if(and (eq (second unit) '*) (eq (isNumber (list (third unit))) 4) (eq (fourth unit) 'x)) 8
+		  if (and
+		  (listp (second  unit))
+		  (eq (first (second unit)) '*)
+		  (numberp (second (second unit)))
+		  (eq (third (second unit)) 'x)
+		  )14
+		  -1
+		)
+		)
+
+		(
+		;later expansion
+		)
+
+	)
+)
+
+(defun SinhI(unit)
+     (if (listp (second unit))
+	 (list '* (list '/ 1 (second (second unit))) (list 'Cosh (list '* (second (second unit)) (third (second unit))) ))
+	 (list 'Cosh (second unit) )
+	
+	)
+)
+
+
+
+(defun isCosh(unit)
+	(	
+	if(or (eq (car unit) 'cosh) (eq (car unit) 'Cosh))
+		( if( eq (second unit) 'x) 
+		15
+		(
+		
+		  if (and
+		  (listp (second  unit))
+		  (eq (first (second unit)) '*)
+		  (numberp (second (second unit)))
+		  (eq (third (second unit)) 'x)
+		  )15
+		  -1
+		)
+		)
+
+		(
+		;later expansion
+		)
+
+	)
+)
+
+
+(defun CoshI(unit)
+     (if (listp (second unit))
+	 (list '* (list '/ 1 (second (second unit))) (list 'sinh (list '* (second (second unit)) (third (second unit))) ))
+	(list 'Sinh (second unit))
+	
+      )
+)
+
+
+
+(defun isTanh(unit)
+	(	
+	if(or (eq (car unit) 'tanh) (eq (car unit) 'Tanh))
+		( if( eq (second unit) 'x) 
+		16
+		(	
+		  if (and
+		  (listp (second  unit))
+		  (eq (first (second unit)) '*)
+		  (numberp (second (second unit)))
+		  (eq (third (second unit)) 'x)
+		  )16
+		  -1
+		)
+		)
+
+		(
+		;later expansion
+		)
+
+	)
+)
+
+
+
+(defun TanhI(unit)
+     (if (listp (second unit))
+	(list '* (list '/ 1 (second (second unit))) (list 'ln 'cosh (list '* (second (second unit)) (third (second unit)))) )
+	(list 'ln 'cosh (second unit) )	
+	
+      )
+)
+
+
+(defun isCoth(unit)
+	(	
+	if(or (eq (car unit) 'coth) (eq (car unit) 'Coth))
+		( if( eq (second unit) 'x) 
+		17
+		(	
+		  if (and
+		  (listp (second  unit))
+		  (eq (first (second unit)) '*)
+		  (numberp (second (second unit)))
+		  (eq (third (second unit)) 'x)
+		  )17
+		  -1
+		)
+		)
+
+		(
+		;later expansion
+		)
+
+	)
+)
+
+
+(defun CothI(unit)
+     (if (listp (second unit))
+	(list '* (list '/ 1 (second (second unit))) (list 'ln 'sinh (list '* (second (second unit)) (third (second unit)))) )
+	(list 'ln 'Sinh (second unit))	
+
+      )
+)
+
+
+
+
+(defun isSech(unit)
+	(	
+	if(or (eq (car unit) 'sech) (eq (car unit) 'Sech))
+		( if( eq (second unit) 'x) 
+		18
+		(	
+		  if (and
+		  (listp (second  unit))
+		  (eq (first (second unit)) '*)
+		  (numberp (second (second unit)))
+		  (eq (third (second unit)) 'x)
+		  )18
+		  -1
+		)
+		)
+
+		(
+		;later expansion
+		)
+
+	)
+)
+
+
+(defun SechI(unit)
+     (if (listp (second unit))
+	(list '* (list '/ 1 (second (second unit))) (list 'arctan  (list 'Sinh ( list '* (second (second unit)) (third (second unit)))) ) )
+	(list 'acrtan  (list 'Sinh (second unit)) )	
+
+      )
+)
+
+
+(defun isCosech(unit)
+	(	
+	if(or (eq (car unit) 'cosech) (eq (car unit) 'cosech))
+		( if( eq (second unit) 'x) 
+		19
+		(	
+		  if (and
+		  (listp (second  unit))
+		  (eq (first (second unit)) '*)
+		  (numberp (second (second unit)))
+		  (eq (third (second unit)) 'x)
+		  )19
+		  -1
+		)
+		)
+
+		(
+		;later expansion
+		)
+
+	)
+)
+
+
+(defun CosechI(unit)
+	(if (listp (second unit))
+	(list '* (list '/ 1 (second (second unit))) (list 'ln 'tanh (list '* (list '/ (second (second unit)) 2) (third (second unit))) ) )
+	(list 'ln 'tanh (list '/ (second unit) 2) )	
+	)
 )
 
 
