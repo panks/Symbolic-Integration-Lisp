@@ -7,10 +7,14 @@ Symbolic Integration in Lisp: Lisp code to find indefinite integral, of a given 
 
 ###Input --
  -  All the inputs are in prefix notation e.g. (x*4) becomes 
-    (* x 4)
+```lisp    
+(* x 4)
+```
  -  Even though the notaion is prefix, the function is broken in into 'elementry' blocks (i.e. blocks of 3 elements) and a list is dedicated to each block
     e.g. : log ( Sin ( 4 * x)) becomes 
+```lisp
     (log sin ( * 4 x))
+```
 
 ###Output --
  - Would be in the same formal as described above
