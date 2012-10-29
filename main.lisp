@@ -165,7 +165,7 @@
 		( append (list (car lis))  (tillN1 (cdr lis)))
 	))
 	
-(defun top (func)
+(defun integratetop (func)
 	(setf intVal (cons 'C (list (starFun func 0))))
     (
 		;print intVal
