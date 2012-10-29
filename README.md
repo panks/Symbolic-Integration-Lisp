@@ -20,7 +20,7 @@ This project contains two files:
 ```
  - Substitution method: To  integrate  (F( g(x)) g(x)) dx input should be like: 
 ```lisp
-(top '(* (sin (* 0.5 (^ x 2))) (x)))
+(* (sin (* 0.5 (^ x 2))) (x))
 ```
  - Integration by part method: Function to be integrate should in place before the other. 
    e.g. 
@@ -28,12 +28,16 @@ This project contains two files:
 ``` is preferred over 
 ```lisp((x ^ 2) (Sin x))
 ```
+ - Pass all the lists to 'top' function for integration
+   e.g. for integrating x^2 call
+```lisp
+*(top '(^ x 2))
 
 ###Output --
  - Would be in the same formal as described above
 
 
 
-####Authors:
+###Authors:
 Vageesh DC (vageesh.dc@gmail.com) <br />
 Pankaj Kumar (me@panks.me)
