@@ -15,7 +15,7 @@ and is shown below :
 
 ###Input --
  -  All the inputs are in prefix notation e.g. (x*4) becomes 
-```lisp    
+``` 
 (* x 4)
 ```
  -  Even though the notaion is prefix, the function is broken in into 'elementry' blocks (i.e. blocks of 3 elements) and a list is dedicated to each block
@@ -33,10 +33,9 @@ and is shown below :
 ``` is preferred over 
 ```(integratetop '(* (x ^ 2) (Sin x)))
 ```
-<br /> - Pass all the lists to 'integratetop' function for integration
+ - Pass all the lists to 'integratetop' function for integration
    e.g. for integrating x^2 call
-```(integratetop
-'(^ x 2))
+```(integratetop '(^ x 2))
 ```
 
 ###Output --
