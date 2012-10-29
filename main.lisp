@@ -164,8 +164,10 @@
 	))
 	
 (defun top (func)
+	(setf intVal (cons 'C (list (starFun func 0))))
     (
-        cons '+ (cons 'C (list (starFun func 0)))
+		if( isNilPresent intVal) nil
+        (cons '+ intVal)
     ))
 
 (defun searchpattern ( func deri)
@@ -242,7 +244,7 @@
     (
         if(eq (listp str) nil) (starFun  (list str) coun)
         (
-		    if(= coun 7) nil
+		    if(= coun 20) nil
 		    (
 			    if(eq (car str) '+) 
 				    (
@@ -266,17 +268,17 @@
 											
 													;UV rule!!
 													;modify global parameter here
-													if(eq (isNilPresent (starFun (list '* (starFun (car (tillN1 (cdr str))) 0) (diff  (car(last str)))) (+ 1 coun) ) ) T)
+													if(eq (isNilPresent (starFun (list '* (starFun (car (tillN1 (cdr str))) (+ 1 coun)) (diff  (car(last str)))) (+ 1 coun) ) ) T)
 														( ;print "2"
-															if(eq (isNilPresent (starFun (list '* (starFun (car (last str)) 0) (diff (car (tillN1 (cdr str))) )) (+ 1 coun) ) ) T) nil
+															if(eq (isNilPresent (starFun (list '* (starFun (car (last str)) (+ 1 coun)) (diff (car (tillN1 (cdr str))) )) (+ 1 coun) ) ) T) nil
 															(
-																list '+ (list '* (starFun (car (last str)) 0) (car (tillN1  (cdr str) )) )  (list '* (list (* -1 (^ -1 (mod coun 2)))) ( starFun (list '* (starFun (car (last str )) 0)  (diff (car (tillN1 (cdr str))))) 0 ))
+																list '+ (list '* (starFun (car (last str)) (+ 1 coun)) (car (tillN1  (cdr str) )) )  (list '* (list (* -1 (^ -1 (mod coun 2)))) ( starFun (list '* (starFun (car (last str )) (+ 1 coun))  (diff (car (tillN1 (cdr str))))) (+ 1 coun) ))
 															)
 														
 														)
 													( ;print "1"
 														;list '* (starFun (tillN1  str) 0) (car (last str) ) 
-														list '+  (list '* (starFun (car (tillN1  (cdr str) ) ) 0) (car (last str) ) ) (list '* (list (* -1 (^ -1 (mod coun 2)))) (starFun (list '* (starFun (car (tillN1  (cdr str))) 0) (diff (car (last str))) ) 0))
+														list '+  (list '* (starFun (car (tillN1  (cdr str) ) ) (+ 1 coun)) (car (last str) ) ) (list '* (list (* -1 (^ -1 (mod coun 2)))) (starFun (list '* (starFun (car (tillN1  (cdr str))) (+ 1 coun)) (diff (car (last str))) ) (+ 1 coun)))
 													)
 												)
 												(substitution (second str) (third str))
