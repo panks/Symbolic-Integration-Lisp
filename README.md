@@ -18,9 +18,16 @@ This project contains two files:
 ```lisp
     (log sin ( * 4 x))
 ```
- - Substitution method: To  integrate  (F( g(x)) g(x)) dx input should be like: (top '(* (sin (* 0.5 (^ x 2))) (x)))
+ - Substitution method: To  integrate  (F( g(x)) g(x)) dx input should be like: 
+```lisp
+(top '(* (sin (* 0.5 (^ x 2))) (x)))
+```
  - Integration by part method: Function to be integrate should in place before the other. 
-   e.g. ((Sin x) (x ^ 2)) is preferred over ((x ^ 2) (Sin x))
+   e.g. 
+```lisp((Sin x) (x ^ 2))
+``` is preferred over 
+```lisp((x ^ 2) (Sin x))
+```
 
 ###Output --
  - Would be in the same formal as described above
@@ -28,5 +35,5 @@ This project contains two files:
 
 
 ####Authors:
-Vageesh DC (vageesh.dc@gmail.com)
+Vageesh DC (vageesh.dc@gmail.com) <br />
 Pankaj Kumar (me@panks.me)
