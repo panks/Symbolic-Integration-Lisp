@@ -1,4 +1,5 @@
 ; differentator
+
 (defun mainDiff ( block )
     (
         ;; TODO add selection rules 
@@ -93,6 +94,7 @@
     
     
 (defun PowD ( unit )
+	;;redifine this to include various things like isXpresent!!
     (
         if(listp (second unit)) 
         (
@@ -100,14 +102,24 @@
                 (list 0)      
             (
                 if(eq (third unit) 1) (list (diff (second unit)))
-                (list '* (list (third unit)) (list '^ (second unit) (- (third unit) 1)) (diff (second unit)))
+                (list '* 
+					  (list (third unit)) 
+					  (list '*  
+						  (list '^ (second unit) (- (third unit) 1)) 
+						  (diff (second unit)) 
+					  )
+						  
+				 )
             )
             
         )
         (    if(eq (third unit) 0) (list 0)
              (
                 if(eq (third unit) 1) (list 1) 
-                (list '* (list (third unit)) (list '^ (second unit) (- (third unit) 1)) )
+                (list '* 
+					(list (third unit)) 
+					(list '^ (second unit) (- (third unit) 1)) 
+				 )
              )
         )
     ))

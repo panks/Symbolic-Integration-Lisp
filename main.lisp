@@ -54,9 +54,11 @@
 								  if(eq (isSech block) 18) (SechI block)
 								
 								    (
-								      if(eq (isCosech block) 19) (CosechI block)
-								
-									nil
+								     ; if(eq (isCosech block) 19) (CosechI block)
+									 ; (
+									;	  if(eq (isExpow block) 20) (ExpowI block)
+										  nil
+									 ; )		
 								    )
 								)
 							)
@@ -166,6 +168,7 @@
 (defun top (func)
 	(setf intVal (cons 'C (list (starFun func 0))))
     (
+		;print intVal
 		if( isNilPresent intVal) nil
         (cons '+ intVal)
     ))
@@ -206,8 +209,7 @@
 							if(listp val) val
 							(list val)
 						)
-					val
-					
+					val	
 				)
 			(
 				if(listp func)
@@ -420,9 +422,27 @@
 
 ( defun ExpI (unit)
     (
-        list '^ 'exp 'x
+        list '^ 'e 'x
     ))    
-        
+
+(defun isExpow (unit)
+	(
+		if(eq (car unit) '^)
+            ( if(null (xpresent (second unit)))
+                (   if(eq (third unit) 'x) 20
+                    60)
+            (
+               ;later expansion
+            ))
+        (;later expansion
+        )
+	))
+
+(defun ExpowI (unit)
+	(
+		list '/ (list '^ (list (second unit)) x) (list (second unit))
+	))	
+	
 (defun isLn( unit )
 	(	
 	if( eq (car unit) 'ln)
@@ -436,7 +456,7 @@
 )
 
 (defun LnI(unit)
-	(list '-  '* (second unit) 'ln (second unit) (second unit))
+	(list '-  (list '* (list (second unit)) (list 'ln (second unit))) (list (second unit)))
 )
 
 
@@ -537,7 +557,7 @@
 (defun TanI(unit)
      (if (listp (second unit))
 	(list '* (list '/ 1 (second (second unit))) (list 'ln 'Sec (list '* (second (second unit)) (third (second unit)))) )
-	(list 'ln 'Sec (second unit) )	
+	(list 'ln (list 'Sec (second unit) ))
 	
       )
 )
@@ -570,7 +590,7 @@
 (defun CotI(unit)
      (if (listp (second unit))
 	(list '* (list '/ 1 (second (second unit))) (list 'ln 'Sin (list '* (second (second unit)) (third (second unit)))) )
-	(list 'ln 'Sin (second unit) )	
+	(list 'ln (list 'Sin (second unit) ))	
 
       )
 )
@@ -745,7 +765,7 @@
 (defun TanhI(unit)
      (if (listp (second unit))
 	(list '* (list '/ 1 (second (second unit))) (list 'ln 'cosh (list '* (second (second unit)) (third (second unit)))) )
-	(list 'ln 'cosh (second unit) )	
+	(list 'ln (list 'cosh (second unit) )	)
 	
       )
 )
