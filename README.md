@@ -35,6 +35,7 @@ and is shown below :
 ```
  - Pass all the lists to 'integratetop' function for integration
    e.g. for integrating x^2 call
+
 ```(integratetop '(^ x 2))
 ```
 
