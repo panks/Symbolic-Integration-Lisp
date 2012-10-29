@@ -1,7 +1,14 @@
 Symbolic-Integration-Lisp
 =========================
 
-Symbolic Integration in Lisp
+Symbolic Integration in Lisp: Lisp code to find indefinite integral, of a given function f(x), incorporates 'Integration by part' and 'Integration by substitution'.
+
+# Usage
+
+
+
+
+
 
 (* Substitution methoda: *)
                 / 
