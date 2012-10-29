@@ -7,6 +7,11 @@ This project contains two files:
 - diff.lisp -- Contains code to provide differentaion of fucntions required for 'Integration by part'
 
 ## Usage:
+ -  The integration is performed by calling the function 
+```
+integratetop
+```
+and is shown below :
 
 ###Input --
  -  All the inputs are in prefix notation e.g. (x*4) becomes 
@@ -15,23 +20,23 @@ This project contains two files:
 ```
  -  Even though the notaion is prefix, the function is broken in into 'elementry' blocks (i.e. blocks of 3 elements) and a list is dedicated to each block
     e.g. : log ( Sin ( 4 * x)) becomes 
-```lisp
-    (log sin ( * 4 x))
+```
+    (integratetop '(log sin ( * 4 x)))
 ```
  - Substitution method: To  integrate  (F( g(x)) g(x)) dx input should be like: 
-```lisp
-(* (sin (* 0.5 (^ x 2))) (x))
+```(integratetop 
+'(* (sin (* 0.5 (^ x 2))) (x)))
 ```
  - Integration by part method: Function to be integrate should in place before the other. 
    e.g. 
-```lisp((Sin x) (x ^ 2))
+```(integratetop '(* (Sin x) (x ^ 2)))
 ``` is preferred over 
-```lisp((x ^ 2) (Sin x))
+```(integratetop '(* (x ^ 2) (Sin x)))
 ```
-<br /> - Pass all the lists to 'top' function for integration
+<br /> - Pass all the lists to 'integratetop' function for integration
    e.g. for integrating x^2 call
-```lisp
-*(top '(^ x 2))
+```(integratetop
+'(^ x 2))
 ```
 
 ###Output --
