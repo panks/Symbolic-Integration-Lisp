@@ -28,10 +28,11 @@ This project contains two files:
 ``` is preferred over 
 ```lisp((x ^ 2) (Sin x))
 ```
- - Pass all the lists to 'top' function for integration
+<br /> - Pass all the lists to 'top' function for integration
    e.g. for integrating x^2 call
 ```lisp
 *(top '(^ x 2))
+```
 
 ###Output --
  - Would be in the same formal as described above
