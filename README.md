@@ -30,14 +30,15 @@ and is shown below :
  - Integration by part method: Function to be integrate should in place before the other. 
    e.g. 
 ```(integratetop '(* (Sin x) (x ^ 2)))
-``` is preferred over 
+``` 
+is preferred over 
 ```(integratetop '(* (x ^ 2) (Sin x)))
 ```
  - Pass all the lists to 'integratetop' function for integration
    e.g. for integrating x^2 call
-
 ```(integratetop '(^ x 2))
 ```
+
 
 ###Output --
  - Would be in the same formal as described above
